@@ -1,0 +1,17 @@
+version: '3'
+services:
+    bot:
+        container_name: bot
+        image: python:3.6
+        volumes: 
+            - ../:/bot/
+        links: 
+            - mongo_bot
+        command: sh -c "cd /bot && pip install -r requirements.txt && python talk.py"
+        restart: always
+    mongo_bot:
+        container_name: mongo_bot
+        image: mongo
+        #volumes:
+        #    - ~/mongoGrupviz:/data/db
+        restart: always
