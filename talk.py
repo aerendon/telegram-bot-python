@@ -25,24 +25,31 @@ def facts_to_str(user_data):
 
 
 def start(bot, update):
+    print('START')
     update.message.reply_text("Hola. Vamos a conversar, cuentame algo", reply_markup=markup)
 
     return CHOOSING
 
 
 def regular_choice(bot, update, user_data):
+    print('REGULAR')
     text = update.message.text
     user_data['choice'] = text
     update.message.reply_text('Tu {}? Si, me encantaría escuchar!'.format(text.lower()))
 
+    return TYPING_REPLY
+
 
 def custom_choice(bot, update):
-    update.message.reply_text('Bien, enviame la categoría primero, ', 'por ejemplo, "Habilidad más impresionante"')
+    print('CUSTOM')
+    update.message.reply_text('Bien, enviame la categoría primero, ' 
+                                'por ejemplo, "Habilidad más impresionante"')
 
     return TYPING_CHOICE
 
 
 def received_information(bot, update, user_data):
+    print('RECEIVED')
     text = update.message.text
     category = user_data['choice']
     user_data[category] = text
@@ -56,6 +63,7 @@ def received_information(bot, update, user_data):
 
 
 def done(bot, update, user_data):
+    print('DONE')
     if 'choice' in user_data:
         del user_data['choice']
 
@@ -101,7 +109,7 @@ def main():
                         ],
         },
 
-        fallbacks = [RegexHandler('^Done$', done, pass_user_data=True)]
+        fallbacks = [RegexHandler('^Completado$', done, pass_user_data=True)]
     )
 
     dp.add_handler(conv_handler)
