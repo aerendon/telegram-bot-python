@@ -39,7 +39,7 @@ def unset(bot, update, chat_data):
         update.message.reply_text('No tienes un temporizador activo')
         return
 
-    job = chat_dat['job']
+    job = chat_data['job']
     job.schedule_removal()
     del chat_data['job']
 
